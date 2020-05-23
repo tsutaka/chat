@@ -45,7 +45,7 @@ const get_now_date = () => {
   return YYYY + "-" + MM + "-" + DD + " " + hh + ":" + mm + ":" + ss
 }
 
-const insert_chat_message = (conn, msg) => {
+const insert_chat_message = (conn, msg, ip) => {
   var sql = 'INSERT INTO ' + 
   '`chat`(`id`, `time`, `name`, `text`, `ip_address`, `color`) ' + 
   'VALUES (NULL,?,?,?,?,?)'
@@ -55,8 +55,9 @@ const insert_chat_message = (conn, msg) => {
     now_date, //datetime
     msg['name'], //name
     msg['message'], //text
-    "0.0.0.0", //IP
+    ip, //IP
     "#000000"
+    // msg['color']
   ]
   // console.log('insert chat: ' + args)
   conn.query(
@@ -68,7 +69,7 @@ const insert_chat_message = (conn, msg) => {
   })
 }
 
-const update_chat_user = (conn, name, status) => {
+const update_chat_user = (conn, msg, ip, status) => {
   //chat-user update
   var sql = 'INSERT INTO ' + 
   '`chat_user`(`name`, `ip`, `datetime`, `status`) ' + 
@@ -77,15 +78,15 @@ const update_chat_user = (conn, name, status) => {
   "datetime=?, status=?" //UPDATE
   var now_date = get_now_date();
   var args = [
-    name, //name
-    "0.0.0.0", //IP
+    msg['name'], //name
+    ip, //IP
     now_date, //datetime
     status, //0:entry, 1:room
     now_date, //datetime
     status //0:entry, 1:room
   ]
   // console.log('insert user: ' + args)
-  if(name !== "System"){
+  if(msg['name'] !== "System"){
     // console.log('insert: ' + args)
     conn.query(
       sql, args, function (err, result) {
@@ -151,7 +152,10 @@ const send_user_info = (rows) => {
 
 //connection
 io.on('connection', (socket) => {
-  console.log('connection:', socket.client.id)
+  var address = socket.handshake.address
+  var address_temp = address.split(":")
+  var ip_address = address_temp[address_temp.length - 1]
+  console.log('connection:', socket.client.id, ",", ip_address)
   
   //send old message
   var rows = select_recent_message(connection)
@@ -163,17 +167,17 @@ io.on('connection', (socket) => {
     io.emit('chat-msg', msg)
 
     //insert db
-    insert_chat_message(connection, msg)
+    insert_chat_message(connection, msg, ip_address)
 
     //chat-user update
-    update_chat_user(connection, msg['name'], 1)
+    update_chat_user(connection, msg, ip_address, 1)
 
   })
 
   //recieve user message
   socket.on('user-msg', (msg) => {
     //insert db
-    update_chat_user(connection, msg['name'], msg['status'])
+    update_chat_user(connection, msg, ip_address, msg['status'])
     
     //send all clients
     var rows = select_recent_user(connection)
