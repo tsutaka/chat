@@ -2,7 +2,7 @@
 import React from 'react'
 import styles from './styles.js'
 
-import socketio from 'socket.io-client'
+// import socketio from 'socket.io-client'
 
 class ChatForm extends React.Component {
   constructor (props) {
@@ -28,7 +28,8 @@ class ChatForm extends React.Component {
     if(this.state.message !== ""){
       this.props.socket.emit('chat-msg', {
         name: this.props.name,
-        message: this.state.message
+        message: this.state.message,
+        color: '#000000'
       })
       this.setState({message: ''}) // clear field
     }

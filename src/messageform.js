@@ -2,7 +2,7 @@
 import React from 'react'
 import styles from './styles.js'
 
-import socketio from 'socket.io-client'
+// import socketio from 'socket.io-client'
 
 class MessageForm extends React.Component {
   constructor (props) {

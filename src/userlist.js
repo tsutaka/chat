@@ -1,7 +1,7 @@
 "use strict";
 import React from 'react'
 
-import socketio from 'socket.io-client'
+// import socketio from 'socket.io-client'
 
 class UserList extends React.Component {
   constructor (props) {
