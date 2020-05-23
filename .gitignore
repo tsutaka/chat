@@ -102,3 +102,16 @@ dist
 
 # TernJS port file
 .tern-port
+
+# cmd memo
+cmd.md
+
+# config files
+config.ini
+src/config.js
+
+# generated bundle file
+public/bundle.js
+
+
+
