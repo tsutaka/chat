@@ -19,7 +19,7 @@ class MessageForm extends React.Component {
       msg.key = 'key_' + (this.state.logs.length + 1)
       msg.styleColor = {color: msg.color}
       msg.datetimeJST = new Date(msg.datetime).toLocaleString({ timeZone: 'Asia/Tokyo' })
-      console.log(msg)
+      // console.log(msg)
       logs2.unshift(msg) // add msg
       if(logs2 == null) {
         console.log("warning:messageform:", logs2)
