@@ -33,7 +33,8 @@ class ChatApp extends React.Component {
     })
     socket.emit('chat-msg', {
       name: 'System',
-      message: '★★★「' + value + '」さんが入室しました★★★'
+      message: '★★★「' + value + '」さんが入室しました★★★', 
+      color: '#000000'
     })
     socket.emit('user-msg', {
       name: value, 

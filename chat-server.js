@@ -56,8 +56,7 @@ const insert_chat_message = (conn, msg, ip) => {
     msg['name'], //name
     msg['message'], //text
     ip, //IP
-    "#000000"
-    // msg['color']
+    msg['color']
   ]
   // console.log('insert chat: ' + args)
   conn.query(
@@ -113,7 +112,8 @@ const send_msg = (rows) => {
   for(var i = 0; i < rows.length; i++){
     io.emit('chat-msg', {
       name: rows[i].name,
-      message: rows[i].text
+      message: rows[i].text, 
+      color: rows[i].color
     })
   }
 }

@@ -17,6 +17,7 @@ class MessageForm extends React.Component {
     this.props.socket.on('chat-msg', (obj) => {
       const logs2 = this.state.logs
       obj.key = 'key_' + (this.state.logs.length + 1)
+      obj.styleColor = {color: obj.color}
       // console.log(obj)
       logs2.unshift(obj) // add msg
       if(logs2 == null) {
@@ -25,6 +26,7 @@ class MessageForm extends React.Component {
       this.setState({logs: logs2})
     })
 
+
   }
 
   render () {
@@ -32,7 +34,7 @@ class MessageForm extends React.Component {
     const messages = this.state.logs.map(e => (
       <div key={e.key} style={styles.log}>
         <span style={styles.name}>{e.name}</span>
-        <span style={styles.msg}>: {e.message}</span>
+        <span style={styles.msg}><span style={e.styleColor}>: {e.message}</span></span>
         <p style={{clear: 'both'}} />
       </div>
     ))
