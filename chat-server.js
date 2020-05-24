@@ -35,7 +35,7 @@ const connection = mysql.createConnection({
 })
 
 const get_now_date = () => {
-  var dd = new Date()
+  var dd = new Date() // JST
   var YYYY = dd.getFullYear()
   var MM = dd.getMonth()+1
   var DD = dd.getDate()
@@ -113,7 +113,8 @@ const send_msg = (rows) => {
     io.emit('chat-msg', {
       name: rows[i].name,
       message: rows[i].text, 
-      color: rows[i].color
+      color: rows[i].color, 
+      datetime: rows[i].time
     })
   }
 }

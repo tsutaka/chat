@@ -14,12 +14,13 @@ class MessageForm extends React.Component {
   
   componentDidMount () {
     // receive chat message
-    this.props.socket.on('chat-msg', (obj) => {
+    this.props.socket.on('chat-msg', (msg) => {
       const logs2 = this.state.logs
-      obj.key = 'key_' + (this.state.logs.length + 1)
-      obj.styleColor = {color: obj.color}
-      // console.log(obj)
-      logs2.unshift(obj) // add msg
+      msg.key = 'key_' + (this.state.logs.length + 1)
+      msg.styleColor = {color: msg.color}
+      msg.datetimeJST = new Date(msg.datetime).toLocaleString({ timeZone: 'Asia/Tokyo' })
+      // console.log(msg)
+      logs2.unshift(msg) // add msg
       if(logs2 == null) {
         console.log("warning:messageform:", logs2)
       }
@@ -35,6 +36,7 @@ class MessageForm extends React.Component {
       <div key={e.key} style={styles.log}>
         <span style={styles.name}>{e.name}</span>
         <span style={styles.msg}><span style={e.styleColor}>: {e.message}</span></span>
+        <span style={styles.time}>{e.datetimeJST}</span>
         <p style={{clear: 'both'}} />
       </div>
     ))

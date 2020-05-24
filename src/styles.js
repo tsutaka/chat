@@ -21,6 +21,10 @@ const styles = {
   },
   msg: {
     float: 'left'
+  },
+  time: {
+    float: 'right', 
+    color: 'lavender'
   }
 }
 
