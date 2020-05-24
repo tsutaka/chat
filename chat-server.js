@@ -114,7 +114,8 @@ const send_msg = (rows) => {
       name: rows[i].name,
       message: rows[i].text, 
       color: rows[i].color, 
-      datetime: rows[i].time
+      datetime: rows[i].time, 
+      ip: rows[i].ip_address
     })
   }
 }
@@ -165,6 +166,8 @@ io.on('connection', (socket) => {
   socket.on('chat-msg', (msg) => {
     //send all clients
     console.log('message:', msg)
+    msg.datetime = get_now_date()
+    msg.ip = ip_address
     io.emit('chat-msg', msg)
 
     //insert db
