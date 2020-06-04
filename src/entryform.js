@@ -27,10 +27,11 @@ class EntryForm extends React.Component {
   
   login () {
     if(this.state.name === ""){
+      console.log("empty name")
       return
     }
     this.props.loginChat(this.state.name)
-    // console.log("login")
+    console.log("login")
   }
 
   onKeyDownEnter (e) {
