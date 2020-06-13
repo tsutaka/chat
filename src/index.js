@@ -8,7 +8,7 @@ import MessageForm from './messageform.js'
 import host from './config.js'
 
 import socketio from 'socket.io-client'
-const socket = socketio.connect('http://' + host + ':3001')
+const socket = socketio.connect('https://' + host + ':3001')
 // const socket = socketio.connect('http://localhost:3001')
 
 

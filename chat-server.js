@@ -1,10 +1,19 @@
 // HTTP server init
 const express = require('express')
 const app = express()
-const server = require('http').createServer(app)
+
+let fs = require('fs');
+let ini = require('ini');
+const config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
+
+var options = {
+  key:  fs.readFileSync(config.key),
+  cert: fs.readFileSync(config.crt)
+}
+const server = require('https').createServer(options, app)
 const portNo = 3001
 server.listen(portNo, () => {
-  console.log('', 'http://localhost:' + portNo)
+  console.log('', 'https://localhost:' + portNo)
 })
 
 app.use('/public', express.static('./public'))
@@ -16,16 +25,6 @@ app.get('/', (req, res) => {
 const socketio = require('socket.io')
 const io = socketio.listen(server)
 const mysql = require('mysql')
-
-let fs = require('fs');
-let ini = require('ini');
-const config = ini.parse(fs.readFileSync('./config.ini', 'utf-8'));
-//eg. config.ini
-//host = "www.xxxx.com"
-//user = "xxxx"
-//password = "xxxx"
-//port = nnnn
-//database = "xxxx"
 const connection = mysql.createConnection({
 	host : config.host,
   user : config.user,
